@@ -1,0 +1,91 @@
+﻿@model PersonDataEntryViewModel
+
+@section styles {
+    <style type="text/css">
+        html {
+            height: 100%;
+        }
+
+            html body {
+                height: 100%;
+                overflow: hidden;
+            }
+
+                html body .container.body-content {
+                    position: absolute;
+                    top: 60px;
+                    bottom: 0px;
+                    right: 0;
+                    left: 0;
+                    overflow-y: auto;
+                }
+    </style>
+}
+
+<form asp-action="PersonDataEntry" method="post" class="form-inline" role="form">
+    <div class="container body-content">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <h4>Please enter the following details</h4>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-md-4">
+                                <label asp-for="Fullname" class="col-form-label"></label>
+                            </div>
+                            <div class="col-md-5 form-group">
+                                <input asp-for="Fullname" class="form-control"/>
+                                <span asp-validation-for="Fullname" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <label asp-for="DateOfBirth" class="col-form-label"></label>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <input asp-for="DateOfBirth" class="form-control date-picker" />
+                                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-md-4">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="submit" class="btn btn-primary" value="Submit" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts
+{
+
+    <script type="text/javascript">
+        "use strict";
+
+        $(document).ready(function () {
+
+            $(".date-picker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                minDate: new Date(1800, 0, 1),
+                maxDate: new Date(),
+                dateFormat: "dd/mm/yy",
+                yearRange: "-130:+0"
+            });
+            
+        });
+
+    </script>
+}

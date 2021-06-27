@@ -1,0 +1,174 @@
+﻿@model PersonInfoViewModel
+
+@section styles {
+    <style type="text/css">
+        html {
+            height: 100%;
+        }
+
+            html body {
+                height: 100%;
+                overflow: hidden;
+            }
+
+                html body .container.body-content {
+                    position: absolute;
+                    top: 60px;
+                    bottom: 0px;
+                    right: 0;
+                    left: 0;
+                    overflow-y: auto;
+                }
+
+        table.blueTable {
+            border: 1px solid #1C6EA4;
+            background-color: #EEEEEE;
+            width: 100%;
+            text-align: left;
+            border-collapse: collapse;
+        }
+
+            table.blueTable td, table.blueTable th {
+                border: 1px solid #AAAAAA;
+                padding: 3px 2px;
+            }
+
+            table.blueTable tbody td {
+                font-size: 13px;
+            }
+
+            table.blueTable tr:nth-child(even) {
+                background: #D0E4F5;
+            }
+
+            table.blueTable thead {
+                background: #1C6EA4;
+                background: -moz-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+                background: -webkit-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+                background: linear-gradient(to bottom, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+                border-bottom: 2px solid #444444;
+            }
+
+                table.blueTable thead th {
+                    font-size: 15px;
+                    font-weight: bold;
+                    color: #FFFFFF;
+                    border-left: 2px solid #D0E4F5;
+                }
+
+                    table.blueTable thead th:first-child {
+                        border-left: none;
+                    }
+
+            table.blueTable tfoot {
+                font-size: 14px;
+                font-weight: bold;
+                color: #FFFFFF;
+                background: #D0E4F5;
+                background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+                background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+                background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+                border-top: 2px solid #444444;
+            }
+
+                table.blueTable tfoot td {
+                    font-size: 14px;
+                }
+
+                table.blueTable tfoot .links {
+                    text-align: right;
+                }
+
+                    table.blueTable tfoot .links a {
+                        display: inline-block;
+                        background: #1C6EA4;
+                        color: #FFFFFF;
+                        padding: 2px 8px;
+                        border-radius: 5px;
+                    }
+
+        .birthday-date {
+            font-weight: bold;
+        }
+    </style>
+}
+
+<form class="form-inline" role="form">
+    <div class="container body-content">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <h4>Welcome @Model.FirstNameOnly</h4>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-md-8">
+                                <p>There are @Model.VowelsInName vowels in your full name.</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-md-8">
+                                <p>Your age is @Model.Age and there are @Model.DaysUntilBirthday days until your next birthday.</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-md-8">
+                                <p>
+                                    Click on a day to see facts about it.<br>
+                                    The days leading up to your birthday are as follows:
+                                </p>
+                            </div>
+                        </div>
+
+                        <table class="blueTable">
+                            <thead>
+                                <tr>
+                                    @for (int dateIndex = 0; dateIndex < 7; dateIndex++)
+                                    {
+                                        <th>@Model.DaysLeadingToBirthday[dateIndex].ToString("dddd")</th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    @for (int rowIndex = 0; rowIndex < 2; rowIndex++)
+                                    {
+                                        <tr>
+                                            @for (int dateIndex = rowIndex * 7; dateIndex < (rowIndex + 1) * 7; dateIndex++)
+                                            {
+                                                var date = Model.DaysLeadingToBirthday[dateIndex];
+                                                var dateMonthDay = date.ToString("MMMM") + "-" + date.ToString("dd");
+                                                var dateDayMonth = date.ToString("dd") + " " + date.ToString("MMMM");
+                                                var className = "";
+                                                if (dateIndex == @Model.DaysLeadingToBirthday.GetUpperBound(0))
+                                                {
+                                                    className = "birthday-date";
+                                                }
+                                                var hrefLink = $"https://www.historynet.com/today-in-history/{dateMonthDay}";
+                                                <td><a href='@hrefLink' target="_blank" rel="noopener" class="@className">@dateDayMonth</a></td>
+                                            }
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row mb-2">
+                            <div class="col-md-3">
+                                <a class="btn btn-primary" asp-controller="Person" asp-action="PersonDataEntry">Have another go!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
